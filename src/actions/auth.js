@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { SIGN_IN, SIGN_OUT, BASE_API_URL } from '../utils/constants';
-import { initiateGetProfile } from './profile';
 import { resetAccount } from './account';
 import { history } from '../router/AppRouter';
 import { getErrors } from './errors';
@@ -21,7 +20,6 @@ export const initiateLogin = (name, password) => {
       const user = result.data;
       localStorage.setItem('user_token', user.token);
       dispatch(signIn(user));
-      dispatch(initiateGetProfile(user.name));
       history.push('/home');
     } catch (error) {
       error.response && dispatch(getErrors(error.response.data));

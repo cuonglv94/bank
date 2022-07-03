@@ -1,7 +1,6 @@
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import store from '../store/store';
-import { initiateGetProfile } from '../actions/profile';
 import { signIn } from '../actions/auth';
 import { history } from '../router/AppRouter';
 
@@ -13,10 +12,11 @@ export const maintainSession = () => {
   const user_token = localStorage.getItem('user_token');
   if (user_token) {
     const currentPath = window.location.pathname;
-    if (currentPath === '/' || currentPath === '/register') {
-      history.push('/profile');
+    if (currentPath === '/') {
+      history.push('/home');
     }
     const decoded = jwt_decode(user_token);
+    console.log('decoded', decoded);
     updateStore(decoded);
   } else {
     history.push('/');
@@ -24,15 +24,13 @@ export const maintainSession = () => {
 };
 
 export const updateStore = (user) => {
-  const { userid, email } = user;
+  const { name } = user;
   store.dispatch(
     signIn({
-      userid,
-      email,
+      name,
       token: localStorage.getItem('user_token')
     })
   );
-  store.dispatch(initiateGetProfile(email));
 };
 
 export const setAuthHeader = () => {

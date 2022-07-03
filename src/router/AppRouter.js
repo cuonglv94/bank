@@ -4,11 +4,9 @@ import _ from 'lodash';
 import { createBrowserHistory } from 'history';
 import { Route, Switch, Router } from 'react-router-dom';
 import Login from '../components/Login';
-import Register from '../components/Register';
 import Home from '../components/Home';
 import Header from '../components/Header';
 import Logout from '../components/Logout';
-import Account from '../components/Account';
 import Transaction from '../components/Transaction';
 import Summary from '../components/Summary';
 

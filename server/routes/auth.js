@@ -48,7 +48,7 @@ Router.post('/signin', async (req, res) => {
     const newToken = new Token({ access_token: token, userid: user.id });
     await newToken.save();
     newUser = { ...user, token: token };
-    res.send(newUser);
+    res.status(200).send(newUser);
   } catch (error) {
     res.status(400).send({
       signin_error: 'Tài khoản/mật khẩu không đúng.'
@@ -60,7 +60,7 @@ Router.post('/logout', authMiddleware, async (req, res) => {
   try {
     const { userid, access_token } = req.user;
     await Token.findOneAndDelete({ access_token, userid })
-    res.send();
+    res.status(200).send();
   } catch (error) {
     res.status(400).send({
       logout_error: 'Có lỗi xảy ra khi đăng xuất.'
