@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { formatter, validateFields } from '../utils/common';
 import CurrencyInput from 'react-currency-input-field';
 import {
@@ -18,7 +18,6 @@ const Transaction = (props) => {
     const [state, setState] = useState({
         amount: '',
         acc_to: '',
-        bank_name_to: '',
         name_to: '',
         description: '',
     });
@@ -70,12 +69,16 @@ const Transaction = (props) => {
         event.preventDefault();
 
         const { amount, acc_to, bank_name_to, name_to, description } = state;
-        if (amount === "" || acc_to === "" || bank_name_to === "" || name_to === "") {
-            setErrorMsg({ withdraw_error: 'Vui lòng điền đầy đủ thông tin.' });
+        if (isNaN(amount)) {
+            setErrorMsg({ withdraw_error: 'Vui lòng điền đúng định dạng số tiền.' });
         } else {
-            props.dispatch(resetErrors());
-            props.dispatch(initiateWithdrawAmount(account.account_no, amount * 0.925, acc_to, description));
-            handleShow();
+            if (amount === "" || acc_to === "" || name_to === "") {
+                setErrorMsg({ withdraw_error: 'Vui lòng điền đầy đủ thông tin.' });
+            } else {
+                props.dispatch(resetErrors());
+                props.dispatch(initiateWithdrawAmount(account.account_no, amount * 0.9925, acc_to, description));
+                handleShow();
+            }
         }
     };
 
@@ -86,13 +89,16 @@ const Transaction = (props) => {
             setErrorMsg({ deposit_error: 'Vui lòng điền đầy đủ thông tin.' });
         } else {
             props.dispatch(resetErrors());
-            props.dispatch(initiateDepositAmount(account.account_no, amount * 0.925, description));
+            props.dispatch(initiateDepositAmount(account.account_no, amount * 0.9925, description));
+            handleShow();
         }
-        handleShow();
     };
 
     const handleChange = (event) => {
         setBankName(event.target.value);
+    };
+    const gotoWithdraw = (event) => {
+        setShow(false);
     };
 
     const randomString = (len, charSet) => {
@@ -144,7 +150,7 @@ const Transaction = (props) => {
                     <div><span className="label-fee">FEE: 0.75%</span></div>
                     <Form.Group controlId="bank_name">
                         <Form.Label>Nhận được:</Form.Label>
-                        <span className="label-stk">{formatter.format(state.amount * 0.925)}</span>
+                        <span className="label-stk">{!isNaN(state.amount) ? formatter.format(state.amount * 0.9925) : ""}</span>
                     </Form.Group>
                     <Form.Group controlId="bank_name">
                         <Form.Label>Tên ngân hàng:</Form.Label>
@@ -163,16 +169,6 @@ const Transaction = (props) => {
                             name="acc_to"
                             placeholder=""
                             value={state.acc_to}
-                            onChange={handleInputChange}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="bank_name_to">
-                        <Form.Label>Tên ngân hàng:</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="bank_name_to"
-                            placeholder=""
-                            value={state.bank_name_to}
                             onChange={handleInputChange}
                         />
                     </Form.Group>
@@ -206,7 +202,10 @@ const Transaction = (props) => {
                         <h2>Lệnh rút đã được gửi đi!</h2>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={handleClose}>Tiếp theo</Button>
+                        {/* <Button onClick={handleClose}>Tiếp theo</Button> */}
+                        <Link to="/withdraw" className="link" onClick={() => gotoWithdraw()}>
+                            <Button>Tiếp theo</Button>
+                        </Link>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -255,7 +254,7 @@ const Transaction = (props) => {
                     <div><span className="label-fee">FEE: 0.75%</span></div>
                     <Form.Group controlId="bank_name">
                         <Form.Label>Nhận được:</Form.Label>
-                        <span className="label-stk">{formatter.format(state.amount * 0.925)}</span>
+                        <span className="label-stk">{formatter.format(state.amount * 0.9925)}</span>
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Tiếp theo
@@ -277,17 +276,20 @@ const Transaction = (props) => {
                         <p>Ngân hàng:    {account.bank_name}</p>
                         <div className='stk'>
                             <p>Số tài khoản:     {account.account_no}</p>
-                            <Button>COPY</Button>
+                            <Button variant="secondary" onClick={() => navigator.clipboard.writeText(account.account_no)} >COPY</Button>
                         </div>
                         <p>Tên:  {account.account_name}</p>
                         <div className='stk'>
                             <p>{state.description}</p>
-                            <Button>COPY</Button>
+                            <Button variant="secondary" onClick={() => navigator.clipboard.writeText(state.description)}>COPY</Button>
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={handleClose}>Tiếp theo</Button>
+                        <Link to="/deposit" className="link" onClick={() => gotoWithdraw()}>
+                            <Button>Tiếp theo</Button>
+                        </Link>
                     </Modal.Footer>
+
                 </Modal>
             </div>
         )

@@ -29,19 +29,19 @@ const Home = (props) => {
                 <div className='home-btn'>
                     <Button
                         variant="primary"
-                        className={`${selectedType === 'withdraw' ? 'active account-btn' : 'account-btn'
-                            }`}
-                        onClick={() => handleOnChange('withdraw')}
-                    >
-                        Rút tiền
-                    </Button>
-                    <Button
-                        variant="secondary"
                         className={`${selectedType === 'deposit' ? 'active account-btn' : 'account-btn'
                             }`}
                         onClick={() => handleOnChange('deposit')}
                     >
                         Nạp tiền
+                    </Button>
+                    <Button
+                        variant="primary"
+                        className={`${selectedType === 'withdraw' ? 'active account-btn' : 'account-btn'
+                            }`}
+                        onClick={() => handleOnChange('withdraw')}
+                    >
+                        Rút tiền
                     </Button>
                 </div>
             </div>
