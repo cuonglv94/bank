@@ -14,6 +14,7 @@ const AccountForm = (props) => {
   const [addAccount, setAddAccount] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [state, setState] = useState({
+    account_name: '',
     account_no: '',
     bank_name: '',
   });
@@ -43,14 +44,14 @@ const AccountForm = (props) => {
 
   const handleAddAccount = (event) => {
     event.preventDefault();
-    const { account_no, bank_name } = state;
-    const fieldsToValidate = [{ account_no, bank_name }];
+    const { account_name, account_no, bank_name } = state;
+    const fieldsToValidate = [{ account_name, account_no, bank_name }];
     const allFieldsEntered = validateFields(fieldsToValidate);
     if (!allFieldsEntered) {
       setErrorMsg({ add_error: 'Please enter all the fields.' });
     } else {
       props
-        .dispatch(initiateAddAccntDetails(account_no, bank_name))
+        .dispatch(initiateAddAccntDetails(account_name, account_no, bank_name))
         .then(() => props.dispatch(initiateGetAccntDetails()));
     }
     setAddAccount(false);
@@ -78,7 +79,7 @@ const AccountForm = (props) => {
         </Form.Group>
         <Form.Group controlId="balance">
           <Form.Label>Số dư:</Form.Label>
-          <span className="label-value">{array.length > 0 && array[0].total_balance.numberDecimal}</span>
+          <span className="label-value"></span>
         </Form.Group>
         <Button variant="primary" onClick={() => setAddAccount(true)}>
           Thêm tài khoản
@@ -95,6 +96,16 @@ const AccountForm = (props) => {
           <Form.Label>Thêm tài khoản ngân hàng</Form.Label>
         </Form.Group>
         <hr />
+        <Form.Group controlId="account_no">
+          <Form.Label>Tên tài khoản </Form.Label>
+          <Form.Control
+            type="text"
+            name="account_name"
+            placeholder=""
+            value={state.account_name}
+            onChange={handleInputChange}
+          />
+        </Form.Group>
         <Form.Group controlId="account_no">
           <Form.Label>Số tài khoản </Form.Label>
           <Form.Control

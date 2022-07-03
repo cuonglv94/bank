@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const AccountSchema = new mongoose.Schema({
+    account_name: {
+        type: String,
+        require: true,
+    },
     account_no: {
         type: String,
         require: true,
@@ -13,10 +17,6 @@ const AccountSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-    userid: {
-        type: String,
-        require: true
-    }
 });
 
 const Account = mongoose.model("Account", AccountSchema);

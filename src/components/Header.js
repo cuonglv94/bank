@@ -17,9 +17,6 @@ const Header = () => {
         <Link to="/home" className="link">
           Trang chủ
         </Link>
-        <Link to="/account" className="link" >
-          Tài khoản
-        </Link>
         <Link to="/deposit" className="link" onClick={() => handleOnChange('deposit')}>
           Lịch sử nạp
         </Link>

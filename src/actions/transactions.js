@@ -8,31 +8,20 @@ import { getErrors } from './errors';
 import { updateAccountBalance } from './account';
 import { get, post } from '../utils/api';
 
-
-const randomString = (len, charSet) => {
-  charSet = charSet || '0123456789';
-  var randomString = '';
-  for (var i = 0; i < len; i++) {
-    var randomPoz = Math.floor(Math.random() * charSet.length);
-    randomString += charSet.substring(randomPoz, randomPoz + 1);
-  }
-  return randomString;
-}
-
 export const addTransaction = (transaction) => ({
   type: ADD_TRANSACTION,
   transaction
 });
 
-export const initiateDepositAmount = (account_no, amount) => {
-  const randomStr = randomString(6);
+export const initiateDepositAmount = (account_no, amount, description) => {
+
   return async (dispatch) => {
     try {
       const transaction = {
         action: 'deposit',
         amount,
         acc_from: account_no,
-        description: "PAY" + randomStr,
+        description,
       };
       await post(`${BASE_API_URL}/deposit/${account_no}`, transaction);
       dispatch(
@@ -47,8 +36,7 @@ export const initiateDepositAmount = (account_no, amount) => {
   };
 };
 
-export const initiateWithdrawAmount = (account_no, amount, acc_to) => {
-  const randomStr = randomString(6);
+export const initiateWithdrawAmount = (account_no, amount, acc_to, description) => {
   return async (dispatch) => {
     try {
       const transaction = {
@@ -56,7 +44,7 @@ export const initiateWithdrawAmount = (account_no, amount, acc_to) => {
         amount,
         acc_from: account_no,
         acc_to,
-        description: "PAY" + randomStr,
+        description,
       };
       await post(`${BASE_API_URL}/withdraw/${account_no}`, transaction);
       dispatch(

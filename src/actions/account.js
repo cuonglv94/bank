@@ -29,12 +29,11 @@ export const initiateGetAccntDetails = () => {
   };
 };
 
-export const initiateAddAccntDetails = (account_no, bank_name) => {
-  console.log("account_no", account_no);
-  console.log("bank_name", bank_name);
+export const initiateAddAccntDetails = (account_name, account_no, bank_name) => {
   return async (dispatch) => {
     try {
       return await post(`${BASE_API_URL}/account`, {
+        account_name,
         account_no,
         bank_name
       });

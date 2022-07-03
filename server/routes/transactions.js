@@ -31,13 +31,12 @@ Router.post('/deposit/:id', authMiddleware, async (req, res) => {
 
 Router.post('/withdraw/:id', authMiddleware, async (req, res) => {
   try {
-    console.log("asdasd");
-    const { action, amount, acc_from, acc_to, description } = req.body;
+    const { action, amount, acc_from, acc_to, bank_name_to, name_to, description } = req.body;
     const account = await Account.findOne({ account_no: acc_from });
     const total_balance = account.total_balance;
     const total = parseFloat(total_balance) - parseFloat(amount);
     if (amount <= total) {
-      const transaction = new Transaction({ action, amount, acc_from, acc_to, description });
+      const transaction = new Transaction({ action, amount, acc_from, acc_to, bank_name_to, name_to, description });
       transaction.save();
       await Account.findOneAndUpdate({ account_no: acc_from }, { total_balance: total })
     } else {
@@ -48,7 +47,7 @@ Router.post('/withdraw/:id', authMiddleware, async (req, res) => {
     res.send();
   } catch (error) {
     res.status(400).send({
-      withdraw_error: 'Error while withdrawing amount..Try again later.'
+      withdraw_error: 'Có lỗi khi rút tiền. Xin thực hiện lại sau.'
     });
   }
 });
@@ -61,7 +60,7 @@ Router.get('/transactions/:id', authMiddleware, async (req, res) => {
   } catch (error) {
     res.status(400).send({
       transactions_error:
-        'Error while getting transactions list..Try again later.'
+        'Có lỗi khi kiểm tra giao dịch. Xin thực hiện lại sau.'
     });
   }
 });
@@ -102,7 +101,7 @@ Router.get('/download/:id', authMiddleware, async (req, res) => {
     res.sendFile(path.join(basePath, 'transactions.pdf'));
   } catch (error) {
     res.status(400).send({
-      transactions_error: 'Error while downloading..Try again later.'
+      transactions_error: 'Có lỗi khi tải file. Xin thực hiện lại sau.'
     });
   }
 });

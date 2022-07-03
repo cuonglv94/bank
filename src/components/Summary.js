@@ -131,11 +131,6 @@ const Summary = (props) => {
               >
                 Tải excel
               </Button>
-              <h5>
-                Detailed transactions between{' '}
-                {moment(startDate).format('Do MMMM YYYY')} and{' '}
-                {moment(endDate).format('Do MMMM YYYY')}
-              </h5>
               <Report transactions={transactions} />
             </React.Fragment>
           )}

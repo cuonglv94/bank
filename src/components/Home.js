@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import {
+    initiateGetAccntDetails
+} from '../actions/account';
 import { useHistory } from 'react-router-dom';
+import { formatter } from '../utils/common';
 
-const Home = () => {
+const Home = (props) => {
     const [selectedType, setSelectedType] = useState('withdraw');
+    const [account, setAccount] = useState();
     const history = useHistory();
     const handleOnChange = (selectedType) => {
         setSelectedType(selectedType);
         history.push("/transaction", selectedType);
     };
+    useEffect(() => {
+        props.dispatch(initiateGetAccntDetails());
+    }, []);
 
+    useEffect(() => {
+        setAccount(props.account);
+    }, [props, props.account]);
     return (
         <div>
             <div className="home">
-                <div className='balance'><h1>100.000.000 VNĐ</h1></div>
+                <div className='balance'><h1>{account && formatter.format(account.total_balance)}</h1></div>
                 <div className='home-btn'>
                     <Button
                         variant="primary"
@@ -38,4 +49,8 @@ const Home = () => {
     );
 };
 
-export default connect()(Home);
+const mapStateToProps = (state) => ({
+    account: state.account,
+});
+
+export default connect(mapStateToProps)(Home);

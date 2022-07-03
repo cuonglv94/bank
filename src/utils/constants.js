@@ -1,4 +1,4 @@
-export const BASE_API_URL = '';
+export const BASE_API_URL = 'http://45.32.120.105';
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const GET_ERRORS = 'GET_ERRORS';

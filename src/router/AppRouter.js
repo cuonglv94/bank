@@ -22,8 +22,6 @@ const AppRouter = ({ auth }) => {
         <div className="container">
           <Switch>
             <Route path="/" component={Login} exact={true} />
-            <Route path="/register" component={Register} />
-            <Route path="/account" component={Account} />
             <Route path="/home" component={Home} />
             <Route path="/logout" component={Logout} />
             <Route path="/transaction" component={Transaction} />

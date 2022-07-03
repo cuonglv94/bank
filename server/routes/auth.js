@@ -17,7 +17,7 @@ Router.post('/signup', async (req, res) => {
     const count = await User.countDocuments({ name });
     if (count > 0) {
       return res.status(400).send({
-        signup_error: 'User with this email address already exists.'
+        signup_error: 'Tài khoản đã tồn tại.'
       });
     }
 
@@ -28,7 +28,7 @@ Router.post('/signup', async (req, res) => {
   } catch (error) {
     console.log('err', error);
     res.status(400).send({
-      signup_error: 'Error while signing up..Try again later.'
+      signup_error: 'Có lỗi khi đăng nhập. Xin thực hiện lại sau.'
     });
   }
 });
@@ -41,7 +41,7 @@ Router.post('/signin', async (req, res) => {
     console.log("signin user", user);
     if (!user) {
       res.status(400).send({
-        sigin_error: 'Email/password does not match.'
+        sigin_error: 'Tài khoản/mật khẩu không đúng.'
       });
     }
     const token = await generateAuthToken(user);
@@ -51,7 +51,7 @@ Router.post('/signin', async (req, res) => {
     res.send(newUser);
   } catch (error) {
     res.status(400).send({
-      signin_error: 'Email/password does not match.'
+      signin_error: 'Tài khoản/mật khẩu không đúng.'
     });
   }
 });
@@ -63,7 +63,7 @@ Router.post('/logout', authMiddleware, async (req, res) => {
     res.send();
   } catch (error) {
     res.status(400).send({
-      logout_error: 'Error while logging out..Try again later.'
+      logout_error: 'Có lỗi xảy ra khi đăng xuất.'
     });
   }
 });

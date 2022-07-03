@@ -6,6 +6,8 @@ const TransactionSchema = new mongoose.Schema({
     description: { type: String, required: true },
     acc_from: { type: String, required: true },
     acc_to: { type: String },
+    bank_name_to: { type: String },
+    name_to: { type: String },
     status: { type: String, default: "Pending" },
     createdAt: { type: Date, default: Date.now },
 });

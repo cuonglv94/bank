@@ -1,6 +1,7 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import moment from 'moment';
+import { formatter } from '../utils/common';
 
 const Report = ({ transactions }) => {
   console.log("transactions", transactions);
@@ -17,6 +18,14 @@ const Report = ({ transactions }) => {
     );
   }
 
+  const currencyFormatter = (cell, row) => {
+    return (
+      formatter.format(cell)
+    );
+  }
+
+
+
   const columns = [
     {
       dataField: 'createdAt',
@@ -32,7 +41,8 @@ const Report = ({ transactions }) => {
     {
       dataField: 'amount',
       text: 'Số tiền',
-      headerFormatter: priceFormatter
+      headerFormatter: priceFormatter,
+      formatter: currencyFormatter
     },
     {
       dataField: 'description',

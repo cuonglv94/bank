@@ -31,7 +31,7 @@ const getAccountByAccountId = async function (account_id) {
 Router.get('/account', authMiddleware, async (req, res) => {
   try {
     const user = req.user;
-    const result = await Account.find({ userid: user._id });
+    const result = await Account.findOne();
     if (result) {
       res.send({ account: result });
     } else {

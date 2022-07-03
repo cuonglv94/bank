@@ -62,30 +62,27 @@ const Login = (props) => {
             <p className="errorMsg centered-message">{errorMsg.signin_error}</p>
           )}
           <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Tài khoản</Form.Label>
             <Form.Control
               type="text"
               name="name"
-              placeholder="Enter name"
+              placeholder=""
               onChange={handleInputChange}
             />
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Mật khẩu</Form.Label>
             <Form.Control
               type="password"
               name="password"
-              placeholder="Enter password"
+              placeholder=""
               onChange={handleInputChange}
             />
           </Form.Group>
           <div className="action-items">
             <Button variant="primary" type="submit">
-              Login
+              Đăng nhập
             </Button>
-            <Link to="/register" className="btn btn-secondary">
-              Create account
-            </Link>
           </div>
         </Form>
       </div>

@@ -8,9 +8,7 @@ import { Link } from 'react-router-dom';
 
 const Register = (props) => {
   const [state, setState] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
+    name: '',
     password: '',
     cpassword: ''
   });
@@ -32,12 +30,10 @@ const Register = (props) => {
 
   const registerUser = (event) => {
     event.preventDefault();
-    const { first_name, last_name, email, password, cpassword } = state;
+    const { name, password, cpassword } = state;
 
     const fieldsToValidate = [
-      { first_name },
-      { last_name },
-      { email },
+      { name },
       { password },
       { cpassword }
     ];
@@ -45,20 +41,20 @@ const Register = (props) => {
     const allFieldsEntered = validateFields(fieldsToValidate);
     if (!allFieldsEntered) {
       setErrorMsg({
-        signup_error: 'Please enter all the fields.'
+        signup_error: 'Vui lòng nhập tất cả các trường.'
       });
     } else {
       if (password !== cpassword) {
         setErrorMsg({
-          signup_error: 'Password and confirm password does not match.'
+          signup_error: 'Mật khẩu không giống nhau.'
         });
       } else {
         setIsSubmitted(true);
         props
-          .dispatch(registerNewUser({ first_name, last_name, email, password }))
+          .dispatch(registerNewUser({ name, password }))
           .then((response) => {
             if (response.success) {
-              setSuccessMsg('User registered successfully.');
+              setSuccessMsg('Bạn đã đăng ký tài khoản thành công.');
               setErrorMsg('');
             }
           });
@@ -76,7 +72,7 @@ const Register = (props) => {
 
   return (
     <div className="login-page">
-      <h2>Register User</h2>
+      <h2>Đăng ký</h2>
       <div className="login-form">
         <Form onSubmit={registerUser}>
           {errorMsg && errorMsg.signup_error ? (
@@ -86,53 +82,33 @@ const Register = (props) => {
               <p className="successMsg centered-message">{successMsg}</p>
             )
           )}
-          <Form.Group controlId="first_name">
-            <Form.Label>First name</Form.Label>
+          <Form.Group controlId="name">
+            <Form.Label>Tên đăng nhập</Form.Label>
             <Form.Control
               type="text"
-              name="first_name"
-              value={state.first_name}
-              placeholder="Enter first name"
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="last_name">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control
-              type="text"
-              name="last_name"
-              value={state.last_name}
-              placeholder="Enter last name"
-              onChange={handleInputChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="email">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={state.email}
-              placeholder="Enter email"
+              name="name"
+              value={state.name}
+              placeholder=""
               onChange={handleInputChange}
             />
           </Form.Group>
           <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Mật khẩu</Form.Label>
             <Form.Control
               type="password"
               name="password"
               value={state.password}
-              placeholder="Enter password"
+              placeholder=""
               onChange={handleInputChange}
             />
           </Form.Group>
           <Form.Group controlId="cpassword">
-            <Form.Label>Confirm password</Form.Label>
+            <Form.Label>Nhập lại mật khẩu</Form.Label>
             <Form.Control
               type="password"
               name="cpassword"
               value={state.cpassword}
-              placeholder="Enter confirm password"
+              placeholder=""
               onChange={handleInputChange}
             />
           </Form.Group>

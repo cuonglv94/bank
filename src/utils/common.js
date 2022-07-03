@@ -45,3 +45,9 @@ export const setAuthHeader = () => {
 export const removeAuthHeader = () => {
   delete axios.defaults.headers.common['Authorization'];
 };
+
+export const formatter = new Intl.NumberFormat('de-DE', {
+  style: 'currency',
+  currency: 'VND',
+  minimumFractionDigits: 2
+})
